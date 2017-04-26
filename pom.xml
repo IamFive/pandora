@@ -108,6 +108,7 @@
 		<dozer.version>5.4.0</dozer.version>
 		<poi.version>3.9</poi.version>
 		<qiniu.version>[7.2.5,)</qiniu.version>
+		<lettuce.version>4.3.0.Final</lettuce.version>
 
 		<java.version>1.8</java.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -124,6 +125,26 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
+			<scope>compile</scope>
+			<optional>true</optional>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.session</groupId>
+			<artifactId>spring-session</artifactId>
+			<scope>compile</scope>
+			<optional>true</optional>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-redis</artifactId>
+			<scope>compile</scope>
+			<optional>true</optional>
+		</dependency>
+		<dependency>
+			<groupId>biz.paluch.redis</groupId>
+			<artifactId>lettuce</artifactId>
+			<version>${lettuce.version}</version>
 			<scope>compile</scope>
 			<optional>true</optional>
 		</dependency>
@@ -243,7 +264,7 @@
 			<optional>true</optional>
 		</dependency>
 	</dependencies>
-	
+
 	<build>
 		<plugins>
 			<plugin>

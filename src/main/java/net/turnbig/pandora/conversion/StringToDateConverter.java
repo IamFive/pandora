@@ -46,6 +46,10 @@ public class StringToDateConverter implements Converter<String, Date> {
 			if (StringUtils.isNumeric(value.toString())) {
 				return new Date(Long.parseLong(value.toString()));
 			}
+
+			// TODO we could guess date-formatter from value to prevent DateFormat creating and improve performance
+			// example: if value length is 10 and contains two "-",
+			// then format should be yyyy-MM-dd
 			DateFormat[] dfs = getDateFormats(locale);
 			for (DateFormat df1 : dfs) {
 				try {
