@@ -36,7 +36,7 @@ public class FileSystemFileHandler extends CloudFileHandler {
 	 * @see net.turnbig.pandora.storage.CloudFileHandler#upload(java.io.File, java.lang.String, java.lang.String)
 	 */
 	@Override
-	public String upload(File file, String name, String bucket) {
+	public String upload(File file, String name, String bucket, FileMeta meta) {
 		String relatedPath = TempFolderUtils.build(Lists.newArrayList(StringUtils.defaultIfBlank(bucket, ""), name));
 		String filepath = TempFolderUtils.build(Lists.newArrayList(storage, relatedPath));
 		try {
@@ -58,7 +58,7 @@ public class FileSystemFileHandler extends CloudFileHandler {
 	 * @see net.turnbig.pandora.storage.CloudFileHandler#upload(byte[], java.lang.String, java.lang.String)
 	 */
 	@Override
-	public String upload(byte[] content, String name, String bucket) {
+	public String upload(byte[] content, String name, String bucket, FileMeta meta) {
 		String relatedPath = TempFolderUtils.build(Lists.newArrayList(StringUtils.defaultIfBlank(bucket, ""), name));
 		String filepath = TempFolderUtils.build(Lists.newArrayList(storage, relatedPath));
 		try {
@@ -74,6 +74,7 @@ public class FileSystemFileHandler extends CloudFileHandler {
 			return "/" + StringUtils.replace(relatedPath, "\\", "/");
 		}
 	}
+
 	/*
 	 * (non-Javadoc)
 	 * 

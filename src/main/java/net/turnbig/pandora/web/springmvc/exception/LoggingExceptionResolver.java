@@ -28,7 +28,7 @@ public class LoggingExceptionResolver extends SimpleMappingExceptionResolver imp
 	protected ModelAndView doResolveException(HttpServletRequest request, HttpServletResponse response, Object handler,
 			Exception ex) {
 		ModelAndView doResolveException = super.doResolveException(request, response, handler, ex);
-		logger.error("unexpect exception throws", ex);
+		logger.error("Exception not caught", ex);
 		return doResolveException;
 	}
 

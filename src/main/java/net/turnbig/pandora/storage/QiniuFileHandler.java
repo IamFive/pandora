@@ -69,7 +69,7 @@ public class QiniuFileHandler extends CloudFileHandler {
 	 * @see com.woo.whisper.storage.FileHandler#upload(byte[], java.lang.String, java.lang.String)
 	 */
 	@Override
-	public String upload(File file, String name, String bucket) {
+	public String upload(File file, String name, String bucket, FileMeta meta) {
 		try {
 			Response res = uploader.put(file.getAbsolutePath(), name, getUploadToken(bucket));
 			if (res.isOK()) {
@@ -92,7 +92,7 @@ public class QiniuFileHandler extends CloudFileHandler {
 	 * @see com.woo.whisper.storage.CloudFileHandler#upload(java.io.InputStream, java.lang.String, java.lang.String)
 	 */
 	@Override
-	public String upload(byte[] content, String name, String bucket) {
+	public String upload(byte[] content, String name, String bucket, FileMeta meta) {
 		try {
 			Response res = uploader.put(content, name, getUploadToken(bucket));
 			if (res.isOK()) {

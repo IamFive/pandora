@@ -2,6 +2,7 @@ package net.turnbig.pandora.web.springboot;
 
 import java.nio.charset.Charset;
 import java.util.List;
+import java.util.TimeZone;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
@@ -29,8 +30,8 @@ import net.turnbig.pandora.conversion.StringToDateConverter;
 @Configuration
 public class WebMvcConfig extends WebMvcConfigurationSupport {
 
-	@Value("${spring.jackson.serialization.indent_output}")
-	boolean indentOutput;
+	@Value("${spring.jackson.serialization.indent_output:false}")
+	boolean indentOutput = false;
 
 	/**
 	 * override message converters
@@ -48,8 +49,14 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
 
 		// customer jackson object mapper
 		ObjectMapper objectMapper = Jackson2ObjectMapperBuilder.json().simpleDateFormat("yyyy-MM-dd HH:mm:ss")
-				.indentOutput(indentOutput).serializationInclusion(Include.NON_NULL)
+				.indentOutput(indentOutput).serializationInclusion(Include.NON_NULL).timeZone(TimeZone.getDefault())
 				.applicationContext(getApplicationContext()).build();
+
+		// TODO we could add a feature date deserializer like StringToDateConverter
+		// SimpleModule module = new SimpleModule();
+		// module.addDeserializer(Date.class, new DateDeserializer());
+		// objectMapper.registerModule(module);
+
 		messageConverters.add(new MappingJackson2HttpMessageConverter(objectMapper));
 	}
 

@@ -22,9 +22,11 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import com.google.common.collect.Maps;
+
 import net.turnbig.pandora.spring.ex.ApiException;
 import net.turnbig.pandora.spring.ex.ServiceException;
 import net.turnbig.pandora.web.springmvc.view.Result;
@@ -34,10 +36,11 @@ import net.turnbig.pandora.web.springmvc.view.Result;
  * @date 2015年1月12日
  * @version $Revision$
  */
+@EnableWebMvc
 @ControllerAdvice
-public class SpringmvcExceptionHandler extends ResponseEntityExceptionHandler {
+public class SpringMvcExceptionHandler extends ResponseEntityExceptionHandler {
 
-	private static final Logger logger = LoggerFactory.getLogger(SpringmvcExceptionHandler.class);
+	private static final Logger logger = LoggerFactory.getLogger(SpringMvcExceptionHandler.class);
 
 	public String handleNoHandlerFoundException(Exception ex) {
 		return "404";
