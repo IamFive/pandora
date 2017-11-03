@@ -221,6 +221,14 @@
 			<version>${commons.io.version}</version>
 		</dependency>
 
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-email</artifactId>
+			<version>1.4</version>
+			<scope>compile</scope>
+			<optional>true</optional>
+		</dependency>
+
 		<!-- bean mapper -->
 		<dependency>
 			<groupId>com.fasterxml.jackson.module</groupId>

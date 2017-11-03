@@ -69,7 +69,7 @@ public class QCloudFileHandler extends CloudFileHandler implements InitializingB
 		if (!targetFilePath.startsWith("/")) {
 			targetFilePath = "/" + targetFilePath;
 		}
-
+		
 		UploadFileRequest request = new UploadFileRequest(bucket, targetFilePath, content);
 		request.setInsertOnly(InsertOnly.NO_OVER_WRITE);
 		request.setEnableShaDigest(false);
