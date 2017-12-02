@@ -6,6 +6,10 @@
 package net.turnbig.pandora.utils;
 
 import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 
@@ -126,6 +130,21 @@ public class Encodes {
 		try {
 			return URLDecoder.decode(part, DEFAULT_URL_ENCODING);
 		} catch (UnsupportedEncodingException e) {
+			throw Exceptions.unchecked(e);
+		}
+	}
+
+	/**
+	 * URL 编码, Encode默认为UTF-8.
+	 */
+	public static String uriEncode(String uri) {
+		try {
+			URL url = new URL(uri);
+			URI temp = new URI(url.getProtocol(), url.getHost(), url.getPath(), url.getQuery(), url.getRef());
+			return temp.toString();
+		} catch (URISyntaxException e) {
+			throw Exceptions.unchecked(e);
+		} catch (MalformedURLException e) {
 			throw Exceptions.unchecked(e);
 		}
 	}

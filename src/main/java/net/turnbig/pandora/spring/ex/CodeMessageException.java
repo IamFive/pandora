@@ -18,7 +18,7 @@ public class CodeMessageException extends RuntimeException {
 
 	private static final long serialVersionUID = 3837058182200378159L;
 
-	protected Integer code = 400;
+	Integer code = 400;
 
 	public CodeMessageException() {
 		super();
@@ -86,7 +86,7 @@ public class CodeMessageException extends RuntimeException {
 	 */
 	@Override
 	public String toString() {
-		return "CodeBasedException [code=" + code + ", message=" + getMessage() + "]";
+		return "CodeMessageException [code=" + code + ", message=" + getMessage() + "]";
 	}
 
 }

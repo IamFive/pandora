@@ -15,6 +15,7 @@ import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 import org.springframework.session.Session;
 import org.springframework.session.web.http.CookieHttpSessionStrategy;
+import org.springframework.session.web.http.HttpSessionStrategy;
 import org.springframework.session.web.http.MultiHttpSessionStrategy;
 
 import net.turnbig.pandora.web.cluster.HttpRedisSessionConfig.RedisSessionProperties;
@@ -45,6 +46,15 @@ public class HttpRedisSessionConfig {
 		template.setConnectionFactory(connectionFactory());
 		return template;
 	}
+	
+	/**
+	 * support loading cookie-id from header
+	 * @return
+	 */
+	@Bean
+	public HttpSessionStrategy httpSessionStrategy() {
+		return new RestfulCookieHttpSessionStrategy();
+	}
 
 	/**
 	 * replace default jedis connection factory with lettuce
@@ -60,6 +70,7 @@ public class HttpRedisSessionConfig {
 		factory.afterPropertiesSet();
 		return factory;
 	}
+	
 
 	@ConfigurationProperties(prefix = "spring.session.redis")
 	public static class RedisSessionProperties {
@@ -126,7 +137,7 @@ public class HttpRedisSessionConfig {
 	 * @author Woo Cubic
 	 * @date   2017年4月12日 下午5:45:49
 	 */
-	static class RestfulCookieHttpSessionStrategy implements MultiHttpSessionStrategy {
+	public static class RestfulCookieHttpSessionStrategy implements MultiHttpSessionStrategy {
 
 		private String headerName = "x-auth-token";
 		private CookieHttpSessionStrategy delegate = new CookieHttpSessionStrategy();

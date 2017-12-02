@@ -19,7 +19,7 @@ import freemarker.template.TemplateException;
  * @date   2017-11-03 10:14:27
  */
 public class FreemarkerRenderer {
-	
+
 	private static final Logger logger = LoggerFactory.getLogger(FreemarkerRenderer.class);
 	static Configuration configuration = null;
 
@@ -46,10 +46,13 @@ public class FreemarkerRenderer {
 	 */
 	public static String processTplContent(String templateContent, Object model) {
 		try {
-			// no-cache here
-			Template template = new Template(RandomStringUtils.random(8), new StringReader(templateContent),
-					configuration);
-			return processTpl(template, model);
+			if (templateContent != null) {
+				// no-cache here
+				Template template = new Template(RandomStringUtils.random(8), new StringReader(templateContent),
+						configuration);
+				return processTpl(template, model);
+			}
+			return null;
 		} catch (IOException e) {
 			logger.error("Can not get freemarker template resource", e);
 			throw new RuntimeException(e);
@@ -58,7 +61,7 @@ public class FreemarkerRenderer {
 			throw new RuntimeException(e);
 		}
 	}
-	
+
 	/**
 	 * 
 	 * process template to string
@@ -70,6 +73,7 @@ public class FreemarkerRenderer {
 	 * @throws TemplateException
 	 */
 	public static String processTpl(Template template, Object model) throws IOException, TemplateException {
+		init();
 		StringWriter result = new StringWriter();
 		template.process(model, result);
 		return result.toString();

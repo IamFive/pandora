@@ -14,17 +14,10 @@ package net.turnbig.pandora.spring.ex;
  */
 public class ServiceException extends CodeMessageException {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -6976200038594180447L;
 
-	/**
-	 * 
-	 */
 	public ServiceException() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	/**
@@ -34,7 +27,6 @@ public class ServiceException extends CodeMessageException {
 	 */
 	public ServiceException(Integer code, String message, Object... formatArgs) {
 		super(code, message, formatArgs);
-		// TODO Auto-generated constructor stub
 	}
 
 	/**
@@ -44,7 +36,6 @@ public class ServiceException extends CodeMessageException {
 	 */
 	public ServiceException(Integer code, String message, Throwable cause) {
 		super(code, message, cause);
-		// TODO Auto-generated constructor stub
 	}
 
 	/**
@@ -53,7 +44,6 @@ public class ServiceException extends CodeMessageException {
 	 */
 	public ServiceException(Integer code, String message) {
 		super(code, message);
-		// TODO Auto-generated constructor stub
 	}
 
 	/**
@@ -62,7 +52,6 @@ public class ServiceException extends CodeMessageException {
 	 */
 	public ServiceException(String message, Object... formatArgs) {
 		super(message, formatArgs);
-		// TODO Auto-generated constructor stub
 	}
 
 	/**
@@ -85,7 +74,6 @@ public class ServiceException extends CodeMessageException {
 	 */
 	public ServiceException(Throwable cause) {
 		super(cause);
-		// TODO Auto-generated constructor stub
 	}
 
 }

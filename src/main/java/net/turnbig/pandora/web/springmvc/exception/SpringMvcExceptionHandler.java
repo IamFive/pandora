@@ -56,7 +56,7 @@ public class SpringMvcExceptionHandler extends ResponseEntityExceptionHandler {
 	@ExceptionHandler(value = { ServiceException.class })
 	public final ResponseEntity<Result> serviceExceptionHandler(ServiceException ex) {
 		// we use rpc-style api response, so, we won't use http status for issue mapping
-		logger.info("service exception caught --> {}", ex.getMessage());
+		logger.info("service exception caught", ex);
 		return new ResponseEntity<Result>(Result.failed(ex), HttpStatus.OK);
 	}
 

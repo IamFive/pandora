@@ -3,7 +3,6 @@ package net.turnbig.pandora.storage;
 import java.io.File;
 import java.io.IOException;
 
-import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,6 +39,7 @@ public class QCloudFileHandler extends CloudFileHandler implements InitializingB
 	public void afterPropertiesSet() throws Exception {
 		ClientConfig config = new ClientConfig();
 		config.setRegion("sh");
+		config.setMaxFailedRetry(5);
 		Credentials credential = new Credentials(properties.getAppId(), properties.getSecretId(),
 				properties.getSecretKey());
 		COS = new COSClient(config, credential);
@@ -51,12 +51,14 @@ public class QCloudFileHandler extends CloudFileHandler implements InitializingB
 	 * @see net.turnbig.pandora.storage.CloudFileHandler#upload(java.io.File, java.lang.String, java.lang.String)
 	 */
 	@Override
-	public String upload(File file, String name, String bucket, FileMeta meta) {
-		try {
-			return this.upload(FileUtils.readFileToByteArray(file), name, bucket, meta);
-		} catch (IOException e) {
-			throw new RuntimeException("Could not read file content from : " + file.getAbsolutePath());
+	public String upload(File file, String filename, String bucket, FileMeta meta) {
+		if (!filename.startsWith("/")) {
+			filename = "/" + filename;
 		}
+		UploadFileRequest request = new UploadFileRequest(bucket, filename, file.getAbsolutePath());
+		request.setInsertOnly(InsertOnly.NO_OVER_WRITE);
+		request.setEnableShaDigest(false);
+		return this.upload(request, meta);
 	}
 
 	/*
@@ -65,14 +67,17 @@ public class QCloudFileHandler extends CloudFileHandler implements InitializingB
 	 * @see net.turnbig.pandora.storage.CloudFileHandler#upload(byte[], java.lang.String, java.lang.String)
 	 */
 	@Override
-	public String upload(byte[] content, String targetFilePath, String bucket, FileMeta meta) {
-		if (!targetFilePath.startsWith("/")) {
-			targetFilePath = "/" + targetFilePath;
+	public String upload(byte[] content, String filename, String bucket, FileMeta meta) {
+		if (!filename.startsWith("/")) {
+			filename = "/" + filename;
 		}
-		
-		UploadFileRequest request = new UploadFileRequest(bucket, targetFilePath, content);
+		UploadFileRequest request = new UploadFileRequest(bucket, filename, content);
 		request.setInsertOnly(InsertOnly.NO_OVER_WRITE);
 		request.setEnableShaDigest(false);
+		return this.upload(request, meta);
+	}
+
+	private String upload(UploadFileRequest request, FileMeta meta) {
 		String response = COS.uploadFile(request);
 		// {"code":-1,"message":"1.jpg is not cos file path! Tips: make sure not ends with /"}
 		String reason = "Failed to upload file to COS";
@@ -83,7 +88,8 @@ public class QCloudFileHandler extends CloudFileHandler implements InitializingB
 				Integer code = result.get("code").asInt();
 				if (code == 0) { // success
 					// update meta
-					UpdateFileRequest updateFileMetaRequest = new UpdateFileRequest(bucket, targetFilePath);
+					UpdateFileRequest updateFileMetaRequest = new UpdateFileRequest(request.getBucketName(),
+							request.getCosPath());
 					if (StringUtils.isNotBlank(meta.getFileName())) {
 						updateFileMetaRequest.setXCosMeta("x-cos-meta-filename", meta.getFileName());
 					}
@@ -101,13 +107,11 @@ public class QCloudFileHandler extends CloudFileHandler implements InitializingB
 				}
 			}
 		} catch (IOException e) {
-			// should not happen?
-			logger.warn("", e);
+			logger.error("Failed to upload file to QCloud COS", e); // should not happen?
 		}
 
 		logger.warn("Failed to upload file to COS, response is: {}", response);
 		throw new RuntimeException(reason);
-
 	}
 
 	/*
