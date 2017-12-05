@@ -22,7 +22,6 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import com.google.common.collect.Maps;
@@ -36,7 +35,6 @@ import net.turnbig.pandora.web.springmvc.view.Result;
  * @date 2015年1月12日
  * @version $Revision$
  */
-@EnableWebMvc
 @ControllerAdvice
 public class SpringMvcExceptionHandler extends ResponseEntityExceptionHandler {
 
@@ -49,7 +47,7 @@ public class SpringMvcExceptionHandler extends ResponseEntityExceptionHandler {
 	@ExceptionHandler(value = { ApiException.class })
 	public final ResponseEntity<Result> apiExHandler(ApiException ex) {
 		// we use rpc-style api response, so, we won't use http status for issue mapping
-		logger.info("api exception caught --> {}", ex.getMessage());
+		logger.info("api exception caught", ex);
 		return new ResponseEntity<Result>(Result.failed(ex), HttpStatus.OK);
 	}
 
@@ -63,7 +61,7 @@ public class SpringMvcExceptionHandler extends ResponseEntityExceptionHandler {
 	protected ResponseEntity<Object> handleBindException(BindException ex, HttpHeaders headers, HttpStatus status,
 			WebRequest request) {
 		HashMap<String, String> errors = extractErros(ex.getBindingResult());
-		logger.info("binding exception caught --> {}", ex.getMessage());
+		logger.info("binding exception caught", ex);
 		return new ResponseEntity<>(Result.failed(HttpStatus.UNPROCESSABLE_ENTITY.value(), "提交的数据有误，请检查", errors),
 				HttpStatus.OK);
 	}
@@ -71,7 +69,7 @@ public class SpringMvcExceptionHandler extends ResponseEntityExceptionHandler {
 	protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
 			HttpHeaders headers, HttpStatus status, WebRequest request) {
 		HashMap<String, String> errors = extractErros(ex.getBindingResult());
-		logger.info("binding exception caught --> {}", ex.getMessage());
+		logger.info("binding exception caught", ex);
 		return new ResponseEntity<>(Result.failed(HttpStatus.UNPROCESSABLE_ENTITY.value(), "提交的数据有误，请检查", errors),
 				HttpStatus.OK);
 	}

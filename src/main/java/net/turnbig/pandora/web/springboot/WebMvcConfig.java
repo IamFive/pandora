@@ -1,6 +1,7 @@
 package net.turnbig.pandora.web.springboot;
 
 import java.nio.charset.Charset;
+import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
 
@@ -65,7 +66,7 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
 	 */
 	@Override
 	public void addFormatters(FormatterRegistry registry) {
-		registry.addConverter(new StringToDateConverter());
+		registry.addConverter(String.class, Date.class, new StringToDateConverter());
 		registry.addConverter(String.class, String.class, new Converter<String, String>() {
 			@Override
 			public String convert(String source) {
