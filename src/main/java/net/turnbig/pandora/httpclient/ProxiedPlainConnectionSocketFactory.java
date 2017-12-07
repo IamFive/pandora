@@ -17,19 +17,20 @@ import org.slf4j.LoggerFactory;
  * @date   2017-12-07 15:51:08
  */
 public class ProxiedPlainConnectionSocketFactory extends PlainConnectionSocketFactory {
-	
-	private static final Logger logger = LoggerFactory.getLogger(ProxiedPlainConnectionSocketFactory.class);
 
+	private static final Logger logger = LoggerFactory.getLogger(ProxiedPlainConnectionSocketFactory.class);
 
 	@Override
 	public Socket createSocket(final HttpContext context) throws IOException {
-		InetSocketAddress addr = (InetSocketAddress) context
-				.getAttribute(ProxiedHttpClientBuilder.PROXY_SOCKS_ADDRESS_ATTR);
-		if (addr != null) {
-			Proxy proxy = new Proxy(Proxy.Type.SOCKS, addr);
-			return new Socket(proxy);
+		if (context != null) {
+			InetSocketAddress addr = (InetSocketAddress) context
+					.getAttribute(ProxiedHttpClientBuilder.PROXY_SOCKS_ADDRESS_ATTR);
+			if (addr != null) {
+				Proxy proxy = new Proxy(Proxy.Type.SOCKS, addr);
+				return new Socket(proxy);
+			}
 		}
-		
+
 		logger.warn("no proxy socks address is configurated, directly connect socket will be used");
 		return super.createSocket(context);
 	}
