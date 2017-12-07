@@ -45,8 +45,13 @@ public class ProxiedSSLConnectionSocketFactory extends SSLConnectionSocketFactor
 	@Override
 	public Socket connectSocket(int connectTimeout, Socket socket, HttpHost host, InetSocketAddress remoteAddress,
 			InetSocketAddress localAddress, HttpContext context) throws IOException {
-		InetSocketAddress unresolvedRemote = InetSocketAddress.createUnresolved(host.getHostName(),
-				remoteAddress.getPort());
-		return super.connectSocket(connectTimeout, socket, host, unresolvedRemote, localAddress, context);
+		if (context != null) {
+			InetSocketAddress addr = (InetSocketAddress) context
+					.getAttribute(ProxiedHttpClientBuilder.PROXY_SOCKS_ADDRESS_ATTR);
+			if (addr != null) {
+				remoteAddress = InetSocketAddress.createUnresolved(host.getHostName(), remoteAddress.getPort());
+			}
+		}
+		return super.connectSocket(connectTimeout, socket, host, remoteAddress, localAddress, context);
 	}
 }
