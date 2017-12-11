@@ -31,7 +31,7 @@ public class ProxiedPlainConnectionSocketFactory extends PlainConnectionSocketFa
 			}
 		}
 
-		logger.warn("no proxy socks address is configurated, directly connect socket will be used");
+		logger.debug("no proxy socks address is configurated, connect directly");
 		return super.createSocket(context);
 	}
 

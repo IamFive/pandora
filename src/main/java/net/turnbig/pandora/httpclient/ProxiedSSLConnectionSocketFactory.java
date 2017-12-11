@@ -38,7 +38,7 @@ public class ProxiedSSLConnectionSocketFactory extends SSLConnectionSocketFactor
 			}
 		}
 
-		logger.warn("no proxy socks address is configurated, directly connect socket will be used");
+		logger.debug("no proxy socks address is configurated, connect directly");
 		return super.createSocket(context);
 	}
 
