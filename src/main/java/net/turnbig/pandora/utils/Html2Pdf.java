@@ -48,7 +48,11 @@ public class Html2Pdf {
 	}
 
 	/**
-	 * get default CJK font provider which use PINGFANG-SC-LIGHT as font type
+	 * get default CJK font provider which use 
+	 * 
+	 * <li> 1. PINGFANG-SC-LIGHT as chinese font type </li>
+	 * <li> 2. malgun.ttf as kora font type </li>
+	 * <li> 3. msgothic.ttc as kora font type </li>
 	 * 
 	 * @return
 	 */
@@ -58,8 +62,13 @@ public class Html2Pdf {
 				if (CJKFontProvider == null) {
 					try {
 						CJKFontProvider = new FontProvider();
-						Resource resource = resourceLoader.getResource("pingfang-sc-light.otf");
-						CJKFontProvider.addFont(IOUtils.toByteArray(resource.getInputStream()));
+						// Resource resource = resourceLoader.getResource("PingFang-Light.ttf");
+						Resource kora = resourceLoader.getResource("malgun.ttf");
+						Resource japan = resourceLoader.getResource("msgothic.ttc");
+						Resource chinese = resourceLoader.getResource("pingfang-sc-light.otf");
+						CJKFontProvider.addFont(IOUtils.toByteArray(kora.getInputStream()));
+						CJKFontProvider.addFont(IOUtils.toByteArray(chinese.getInputStream()));
+						CJKFontProvider.addFont(IOUtils.toByteArray(japan.getInputStream()));
 					} catch (IOException e) {
 						logger.error("Failed to load pingfang sc light font type", e);
 						throw new RuntimeException(e);
@@ -106,5 +115,13 @@ public class Html2Pdf {
 	public static void convert(String htmlContent, File targetPdfFile, ConverterProperties properties)
 			throws IOException {
 		HtmlConverter.convertToPdf(htmlContent, new FileOutputStream(targetPdfFile), properties);
+	}
+
+	public static void main(String[] args) throws IOException {
+		String contextFolder = "E:\\www\\express";
+		String outputFileName = "QJ304501-0";
+		File htmlFile = new File(contextFolder + File.separator + outputFileName + ".html");
+		File pdfFile = new File(contextFolder + File.separator + outputFileName + ".pdf");
+		Html2Pdf.convert(htmlFile, pdfFile);
 	}
 }
