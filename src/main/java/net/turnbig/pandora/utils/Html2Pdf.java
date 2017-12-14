@@ -52,7 +52,7 @@ public class Html2Pdf {
 	 * 
 	 * <li> 1. PINGFANG-SC-LIGHT as chinese font type </li>
 	 * <li> 2. malgun.ttf as kora font type </li>
-	 * <li> 3. msgothic.ttc as kora font type </li>
+	 * <li> 3. MSMINCHO.ttf as kora font type </li>
 	 * 
 	 * @return
 	 */
@@ -62,13 +62,12 @@ public class Html2Pdf {
 				if (CJKFontProvider == null) {
 					try {
 						CJKFontProvider = new FontProvider();
-						// Resource resource = resourceLoader.getResource("PingFang-Light.ttf");
 						Resource kora = resourceLoader.getResource("malgun.ttf");
-						Resource japan = resourceLoader.getResource("msgothic.ttc");
+						Resource japan = resourceLoader.getResource("msmincho.ttf");
 						Resource chinese = resourceLoader.getResource("pingfang-sc-light.otf");
 						CJKFontProvider.addFont(IOUtils.toByteArray(kora.getInputStream()));
-						CJKFontProvider.addFont(IOUtils.toByteArray(chinese.getInputStream()));
 						CJKFontProvider.addFont(IOUtils.toByteArray(japan.getInputStream()));
+						CJKFontProvider.addFont(IOUtils.toByteArray(chinese.getInputStream()));
 					} catch (IOException e) {
 						logger.error("Failed to load pingfang sc light font type", e);
 						throw new RuntimeException(e);
