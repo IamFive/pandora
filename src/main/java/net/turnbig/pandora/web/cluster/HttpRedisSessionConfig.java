@@ -3,6 +3,7 @@ package net.turnbig.pandora.web.cluster;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -46,7 +47,7 @@ public class HttpRedisSessionConfig {
 		template.setConnectionFactory(connectionFactory());
 		return template;
 	}
-	
+
 	/**
 	 * support loading cookie-id from header
 	 * @return
@@ -70,7 +71,6 @@ public class HttpRedisSessionConfig {
 		factory.afterPropertiesSet();
 		return factory;
 	}
-	
 
 	@ConfigurationProperties(prefix = "spring.session.redis")
 	public static class RedisSessionProperties {
@@ -139,14 +139,15 @@ public class HttpRedisSessionConfig {
 	 */
 	public static class RestfulCookieHttpSessionStrategy implements MultiHttpSessionStrategy {
 
-		private String headerName = "x-auth-token";
+		private String authTokenHeaderName = "x-auth-token";
+		private String accessTokenHeaderName = "x-access-token";
 		private CookieHttpSessionStrategy delegate = new CookieHttpSessionStrategy();
 
 		public RestfulCookieHttpSessionStrategy() {
 		}
 
 		public RestfulCookieHttpSessionStrategy(String headerName) {
-			this.headerName = headerName;
+			this.authTokenHeaderName = headerName;
 		}
 
 		/**
@@ -155,7 +156,8 @@ public class HttpRedisSessionConfig {
 		 * @see org.springframework.session.web.http.CookieHttpSessionStrategy#getRequestedSessionId(javax.servlet.http.HttpServletRequest)
 		 */
 		public String getRequestedSessionId(HttpServletRequest request) {
-			String header = request.getHeader(headerName);
+			String header = StringUtils.defaultString(request.getHeader(accessTokenHeaderName),
+					request.getHeader(authTokenHeaderName));
 			return header != null ? header : delegate.getRequestedSessionId(request);
 		}
 

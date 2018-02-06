@@ -8,9 +8,11 @@
 package net.turnbig.pandora.utils;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 
 import org.apache.commons.lang3.StringUtils;
+import org.joda.time.DateTime;
 
 /**
  * @author Woo Cupid
@@ -59,5 +61,19 @@ public class Q {
 			return StringUtils.defaultString(o, "") + "%";
 		}
 		return null;
+	}
+
+	public static Date withTimeAtStartOfDay(Date original) {
+		if (original == null) {
+			return null;
+		}
+		return new DateTime(original).withTimeAtStartOfDay().toDate();
+	}
+
+	public static Date withTimeAtEndOfDay(Date original) {
+		if (original == null) {
+			return null;
+		}
+		return new DateTime(original).plusDays(1).withTimeAtStartOfDay().minusSeconds(1).toDate();
 	}
 }
