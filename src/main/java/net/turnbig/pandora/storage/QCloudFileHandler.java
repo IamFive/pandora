@@ -38,7 +38,7 @@ public class QCloudFileHandler extends CloudFileHandler implements InitializingB
 	@Override
 	public void afterPropertiesSet() throws Exception {
 		ClientConfig config = new ClientConfig();
-		config.setRegion("sh");
+		config.setRegion(properties.getRegion());
 		config.setMaxFailedRetry(5);
 		Credentials credential = new Credentials(properties.getAppId(), properties.getSecretId(),
 				properties.getSecretKey());
