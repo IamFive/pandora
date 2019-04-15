@@ -9,6 +9,8 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 
+import com.google.common.collect.Lists;
+
 import org.apache.commons.io.FileUtils;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.RequestBuilder;
@@ -16,8 +18,6 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.pdfbox.io.MemoryUsageSetting;
 import org.apache.pdfbox.multipdf.PDFMergerUtility;
 import org.apache.pdfbox.pdmodel.PDDocumentInformation;
-
-import com.google.common.collect.Lists;
 
 /**
  *
