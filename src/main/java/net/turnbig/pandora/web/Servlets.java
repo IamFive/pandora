@@ -6,6 +6,7 @@
 package net.turnbig.pandora.web;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.Enumeration;
@@ -273,19 +274,14 @@ public class Servlets {
 		return request.getRemoteAddr();
 	}
 
-	public static void output(HttpServletResponse response, String contentType, Object content) throws IOException {
-		ServletOutputStream output = response.getOutputStream();
+	public static void output(HttpServletResponse response, String contentType, String content) throws IOException {
+		PrintWriter writer = response.getWriter();
 		try {
 			response.setContentType(contentType);
-			if (content instanceof byte[]) {
-				byte[] temp = (byte[]) content;
-				output.write(temp);
-			} else if (content instanceof String) {
-				output.print(String.valueOf(content));
-			}
+			writer.write(content);
 		} finally {
-			output.flush();
-			output.close();
+			writer.flush();
+			writer.close();
 		}
 	}
 }
