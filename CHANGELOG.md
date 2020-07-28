@@ -1,3 +1,7 @@
+## 1.3.1 (2020-07-28)
+ * fix: shiro like method security not imported.
+ 
+
 ## 1.3.0 (2020-07-28)
  * feature: add token based authentication support using spring-security and redis
  * optimize: code clean
