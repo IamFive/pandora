@@ -42,7 +42,6 @@ public class RedisHttpSessionConfig {
 
     final RedisHttpSessionConfig.RedisSessionProperties properties;
     protected RedisConnectionFactory redisConnectionFactory;
-    private ApplicationContext applicationContext;
 
     public RedisHttpSessionConfig(RedisHttpSessionConfig.RedisSessionProperties properties) {
         this.properties = properties;
