@@ -1,4 +1,4 @@
-package net.turnbig.pandora.web.springboot;
+package net.turnbig.pandora.springboot;
 
 import java.nio.charset.Charset;
 import java.util.Date;
@@ -29,7 +29,7 @@ import net.turnbig.pandora.conversion.StringToDateConverter;
  * @date   2017年4月11日 下午9:42:20
  */
 @Configuration
-public class WebMvcConfig extends WebMvcConfigurationSupport {
+public class WebMvcConfiguration extends WebMvcConfigurationSupport {
 
 	@Value("${spring.jackson.serialization.indent_output:false}")
 	boolean indentOutput = false;
@@ -67,15 +67,9 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
 	@Override
 	public void addFormatters(FormatterRegistry registry) {
 		registry.addConverter(String.class, Date.class, new StringToDateConverter());
-		registry.addConverter(String.class, String.class, new Converter<String, String>() {
-			@Override
-			public String convert(String source) {
-				if (source != null) {
-					String trim = source.trim();
-					return "".equals(trim) ? null : trim;
-				}
-				return null;
-			}
+		registry.addConverter(String.class, String.class, source -> {
+			String trim = source.trim();
+			return "".equals(trim) ? null : trim;
 		});
 
 		// fix ajax submit empty file input will commit as string issue
