@@ -1,5 +1,6 @@
 package net.turnbig.pandora.springboot.security.rpc.handler;
 
+import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
@@ -58,7 +59,9 @@ public class RpcAuthenticationPostHandler implements AuthenticationSuccessHandle
     // TODO use configured timeout
     this.stringRedisTemplate.expire(authenticationTokenRedisKeyName, 30, TimeUnit.MINUTES);
 
-    Result success = Result.success(Q.newHashMap("token", token, "profile", userDetails.profile()));
+    Map<String, Object> profile = userDetails.profile();
+    profile.put("token", token);
+    Result success = Result.success(profile);
     Servlets.output(response, MediaType.APPLICATION_JSON_VALUE, JsonMapper.nonEmptyMapper().toJson(success));
   }
 
