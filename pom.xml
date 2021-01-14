@@ -136,7 +136,7 @@
 		<assertj.version>2.2.0</assertj.version>
 		<shiro.version>1.4.0-RC2</shiro.version>
 		<dozer.version>5.4.0</dozer.version>
-		<poi.version>3.9</poi.version>
+		<poi.version>4.1.2</poi.version>
 		<lettuce.version>5.2.1.RELEASE</lettuce.version>
 		<qiniu.version>7.2.8</qiniu.version>
 		<qcloud.COS.version>4.4</qcloud.COS.version>
