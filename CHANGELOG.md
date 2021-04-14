@@ -1,3 +1,6 @@
+## 1.3.3 (2021-04-14)
+ * cve: guava & poi
+
 ## 1.3.2 (2020-07-28)
  * opt: login success output structure.
  * fix: auto release to sonatype
