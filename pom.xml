@@ -132,7 +132,7 @@
 	<properties>
 		<guava.version>30.0-jre</guava.version>
 		<commons.lang3.version>3.7</commons.lang3.version>
-		<commons.io.version>2.6</commons.io.version>
+		<commons.io.version>2.7</commons.io.version>
 		<assertj.version>2.2.0</assertj.version>
 		<shiro.version>1.4.0-RC2</shiro.version>
 		<dozer.version>5.4.0</dozer.version>
